@@ -1,0 +1,108 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+vector<int> findNextGreaterToRight(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> result(n, -1);
+    stack<int> st;
+
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && arr[i] > arr[st.top()]) {
+            result[st.top()] = arr[i];
+            st.pop();
+        }
+        st.push(i);
+    }
+
+    return result;
+}
+
+vector<int> findNextGreaterToLeft(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> result(n, -1);
+    stack<int> st;
+
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && arr[i] > arr[st.top()]) {
+            result[st.top()] = arr[i];
+            st.pop();
+        }
+        st.push(i);
+    }
+
+    return result;
+}
+
+vector<int> findNearestSmallerToLeft(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> result(n, -1);
+    stack<int> st;
+
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && arr[i] <= arr[st.top()]) {
+            st.pop();
+        }
+        if (!st.empty()) {
+            result[i] = arr[st.top()];
+        }
+        st.push(i);
+    }
+
+    return result;
+}
+
+vector<int> findNextSmallerToRight(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> result(n, -1);
+    stack<int> st;
+
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && arr[i] <= arr[st.top()]) {
+            st.pop();
+        }
+        if (!st.empty()) {
+            result[i] = arr[st.top()];
+        }
+        st.push(i);
+    }
+
+    return result;
+}
+
+int main() {
+    vector<int> arr = {4, 6, 3, 2, 8, 1, 5, 7};
+
+    vector<int> nextGreaterToRight = findNextGreaterToRight(arr);
+    vector<int> nextGreaterToLeft = findNextGreaterToLeft(arr);
+    vector<int> nearestSmallerToLeft = findNearestSmallerToLeft(arr);
+    vector<int> nextSmallerToRight = findNextSmallerToRight(arr);
+
+    cout << "Next Greater to Right: ";
+    for (int num : nextGreaterToRight) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    cout << "Next Greater to Left: ";
+    for (int num : nextGreaterToLeft) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    cout << "Nearest Smaller to Left: ";
+    for (int num : nearestSmallerToLeft) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    cout << "Next Smaller to Right: ";
+    for (int num : nextSmallerToRight) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
